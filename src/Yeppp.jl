@@ -18,7 +18,7 @@ function sum(v::AbstractVector{Float64})
     s[1]
 end
 
-function sumsq(v::AbstractVector{Float64})
+function sumabs2(v::AbstractVector{Float64})
     n = length(v)
     s = Array(Float64, 1)
     const status = ccall( (:yepCore_SumSquares_V64f_S64f, "libyeppp"), Int32, (Ptr{Float64}, Ptr{Float64}, Uint), v, s, n)

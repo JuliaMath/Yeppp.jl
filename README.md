@@ -28,7 +28,7 @@ are in `x`, and outputs are in `y`.
 ```julia
 dot(x1, x2)
 sum(x)
-sumsq(x)
+sumabs2(x)
 log!(y, x)
 exp!(y, x)
 sin!(y, x)
