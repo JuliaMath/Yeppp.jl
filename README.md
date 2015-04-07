@@ -22,8 +22,9 @@ t  = @elapsed log(x)
 t/ty
 ````
 
-The following functions are available. Inputs are in `x`, and outputs
-are in `y`.
+The following functions are available for `Vector{Float64}`. Inputs
+are in `x`, and outputs are in `y`.
+
 ```julia
 dot(x1, x2)
 sum(x)
@@ -34,3 +35,6 @@ sin!(y, x)
 cos!(y, x)
 tan!(y, x)
 ````
+
+See the [Yeppp documentation](http://docs.yeppp.info/c/modules.html)
+for the full set of functions available in Yeppp.
