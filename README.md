@@ -28,9 +28,18 @@ are in `x`, and outputs are in `y`.
 ```julia
 dot(x1, x2)
 sum(x)
+subabs(x)
 sumabs2(x)
+negate!(x)
+max!(y, x1, x2)
+min!(y, x1, x2)
+add!(y, x1, x2)
+subtract!(y, x1, x2)
+multiply!(y, x1, x2)
+
 log!(y, x)
 exp!(y, x)
+
 sin!(y, x)
 cos!(y, x)
 tan!(y, x)
