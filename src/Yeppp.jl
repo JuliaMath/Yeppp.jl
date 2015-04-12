@@ -77,6 +77,14 @@ function add!(res::Vector{Float64}, y::Vector{Float64}, x::Vector{Float64})
     res
 end
 
+function add!(res::Vector{Float64}, y::Float64, x::Vector{Float64})
+	n = length(x)
+	assert(length(res) == n)    
+	const status = ccall( (:yepCore_Add_V64fS64f_V64f, "libyeppp"), Cint, (Ptr{Float64}, Cdouble, Ptr{Float64}, Culong), x, y, res, n)
+	status != 0 && error("yepCore_Add_V64fS64f_V64f: error: ", status)
+	res
+end
+
 function subtract!(res::Vector{Float64}, y::Vector{Float64}, x::Vector{Float64})
     assert(length(x) == length(y))
     n = length(x)
@@ -85,12 +93,39 @@ function subtract!(res::Vector{Float64}, y::Vector{Float64}, x::Vector{Float64})
     res
 end
 
+#x - constant_y
+function subtract!(res::Vector{Float64}, y::Float64, x::Vector{Float64})
+	n = length(x)
+	assert(length(res) == n)    
+	const status = ccall( (:yepCore_Subtract_V64fS64f_V64f, "libyeppp"), Cint, (Ptr{Float64}, Cdouble, Ptr{Float64}, Culong), x, y, res, n)
+	status != 0 && error("yepCore_Subtract_V64fS64f_V64f: error: ", status)
+	res
+end
+
+#constant_x - y
+function subtract!(res::Vector{Float64}, y::Vector{Float64}, x::Float64)
+	n = length(y)
+	assert(length(res) == n)    
+	const status = ccall( (:yepCore_Subtract_S64fV64f_V64f, "libyeppp"), Cint, (Cdouble, Ptr{Float64}, Ptr{Float64}, Culong), x, y, res, n)
+	status != 0 && error("yepCore_Subtract_S64fV64f_V64f: error: ", status)
+	res
+end
+
 function multiply!(res::Vector{Float64}, y::Vector{Float64}, x::Vector{Float64})
     assert(length(x) == length(y))
     n = length(x)
     const status = ccall( (:yepCore_Multiply_V64fV64f_V64f, "libyeppp"), Cint, (Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Culong), x, y, res, n)
     status != 0 && error("yepCore_Multiply_V64fV64f_V64f: error: ", status)
     res
+end
+
+# x .* constant_y
+function multiply!(res::Vector{Float64}, y::Float64, x::Vector{Float64})
+	n = length(x)
+	assert(length(res) == n)    
+	const status = ccall( (:yyepCore_Multiply_V64fS64f_V64f, "libyeppp"), Cint, (Ptr{Float64}, Cdouble, Ptr{Float64}, Culong), x, y, res, n)
+	status != 0 && error("yepCore_Multiply_V64fS64f_V64f: error: ", status)
+	res
 end
 
 function negate!(v::Vector{Float64})
