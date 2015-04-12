@@ -118,8 +118,8 @@ const coeff = [c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10,
 function horner!(xv::Vector{Float64}, y::Vector{Float64})
     for i in 1:length(xv)
         x = xv[i]
-        y[i] =  c0 + x * (c1 + x * (c2 + x * (c3 + x * (c4 + x * (c5 + x * (c6 + x * (c7 + x * (c8 + x * (c9 + x * (c10 + x * (c11 + 
-                              x * (c12 + x * (c13 + x * (c14 + x * (c15 + x * (c16 + x * (c17 + x * (c18 + x * (c19 + x * (c20 + x * (c21 + 
+        y[i] =  c0 + x * (c1 + x * (c2 + x * (c3 + x * (c4 + x * (c5 + x * (c6 + x * (c7 + x * (c8 + x * (c9 + x * (c10 + x * (c11 +
+                              x * (c12 + x * (c13 + x * (c14 + x * (c15 + x * (c16 + x * (c17 + x * (c18 + x * (c19 + x * (c20 + x * (c21 +
                               x * (c22 + x * (c23 + x * (c24 + x * (c25 + x * (c26 + x * (c27 + x * (c28 + x * (c29 + x * (c30 + x * (c31 +
                               x * (c32 + x * (c33 + x * (c34 + x * (c35 + x * (c36 + x * (c37 + x * (c38 + x * (c39 + x * (c40 + x * (c41 +
                               x * (c42 + x * (c43 + x * (c44 + x * (c45 + x * (c46 + x * (c47 + x * (c48 + x * (c49 + x * (c50 + x * (c51 +
@@ -142,7 +142,7 @@ function horner_gen!(coef::Vector{Float64}, x::Vector{Float64}, y::Vector{Float6
       sum = coef[k] + xc * sum
     end
     y[i] = sum
-  end 
+  end
 end
 
 function runtest(n::Int = 10^7)
@@ -151,7 +151,7 @@ function runtest(n::Int = 10^7)
     y2 = zeros(n)
     y3 = zeros(n)
 
-    tyeppp = @elapsed Yeppp.evalpoly!(coeff, x, y1)
+    tyeppp = @elapsed Yeppp.evalpoly!(y1, coeff, x)
     thorner = @elapsed horner!(x, y2)
     thorner2 = @elapsed horner_gen!(coeff, x, y3)
 

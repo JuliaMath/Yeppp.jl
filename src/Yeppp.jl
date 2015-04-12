@@ -52,7 +52,7 @@ function max!(res::Vector{Float64}, y::Vector{Float64}, x::Vector{Float64})
     res
 end
 
-function evalpoly!(coef::Vector{Float64}, x::Vector{Float64}, res::Vector{Float64})
+function evalpoly!(res::Vector{Float64}, coef::Vector{Float64}, x::Vector{Float64})
     assert(length(x) == length(res))
     n = length(coef)
     arraysize = length(x)

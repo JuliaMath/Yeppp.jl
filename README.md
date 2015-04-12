@@ -39,6 +39,7 @@ multiply!(y, x1, x2)
 
 log!(y, x)
 exp!(y, x)
+evalpoly!(y, x_coeff, x)
 
 sin!(y, x)
 cos!(y, x)
