@@ -1,6 +1,6 @@
 module Yeppp
 
-Function __init__()
+function __init__()
     const status = ccall( (:yepLibrary_Init, "libyeppp"), Cint, ())
     status != 0 && error("yepLibrary_Init: error: ", status)
 end
