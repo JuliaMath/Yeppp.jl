@@ -123,7 +123,7 @@ end
 function multiply!(res::Vector{Float64}, y::Float64, x::Vector{Float64})
 	n = length(x)
 	assert(length(res) == n)    
-	const status = ccall( (:yyepCore_Multiply_V64fS64f_V64f, "libyeppp"), Cint, (Ptr{Float64}, Cdouble, Ptr{Float64}, Culong), x, y, res, n)
+	const status = ccall( (:yepCore_Multiply_V64fS64f_V64f, "libyeppp"), Cint, (Ptr{Float64}, Cdouble, Ptr{Float64}, Culong), x, y, res, n)
 	status != 0 && error("yepCore_Multiply_V64fS64f_V64f: error: ", status)
 	res
 end
