@@ -84,11 +84,11 @@ function add!(res::Array{Float64}, x::Array{Float64}, y::Array{Float64})
 end
 
 function add!(res::Array{Float64}, x::Array{Float64}, y::Float64)
-	n = length(x)
-	assert(length(res) == n)
-	const status = ccall( (:yepCore_Add_V64fS64f_V64f, "libyeppp"), Cint, (Ptr{Float64}, Cdouble, Ptr{Float64}, Culong), x, y, res, n)
-	status != 0 && error("yepCore_Add_V64fS64f_V64f: error: ", status)
-	res
+    n = length(x)
+    assert(length(res) == n)
+    const status = ccall( (:yepCore_Add_V64fS64f_V64f, "libyeppp"), Cint, (Ptr{Float64}, Cdouble, Ptr{Float64}, Culong), x, y, res, n)
+    status != 0 && error("yepCore_Add_V64fS64f_V64f: error: ", status)
+    res
 end
 
 add(x, y) = add!(similar(x), x, y)
@@ -103,20 +103,20 @@ end
 
 #x - constant_y
 function subtract!(res::Array{Float64}, x::Array{Float64}, y::Float64)
-	n = length(x)
-	assert(length(res) == n)
-	const status = ccall( (:yepCore_Subtract_V64fS64f_V64f, "libyeppp"), Cint, (Ptr{Float64}, Cdouble, Ptr{Float64}, Culong), x, y, res, n)
-	status != 0 && error("yepCore_Subtract_V64fS64f_V64f: error: ", status)
-	res
+    n = length(x)
+    assert(length(res) == n)
+    const status = ccall( (:yepCore_Subtract_V64fS64f_V64f, "libyeppp"), Cint, (Ptr{Float64}, Cdouble, Ptr{Float64}, Culong), x, y, res, n)
+    status != 0 && error("yepCore_Subtract_V64fS64f_V64f: error: ", status)
+    res
 end
 
 #constant_x - y
 function subtract!(res::Array{Float64}, x::Float64, y::Array{Float64})
-	n = length(y)
-	assert(length(res) == n)
-	const status = ccall( (:yepCore_Subtract_S64fV64f_V64f, "libyeppp"), Cint, (Cdouble, Ptr{Float64}, Ptr{Float64}, Culong), x, y, res, n)
-	status != 0 && error("yepCore_Subtract_S64fV64f_V64f: error: ", status)
-	res
+    n = length(y)
+    assert(length(res) == n)
+    const status = ccall( (:yepCore_Subtract_S64fV64f_V64f, "libyeppp"), Cint, (Cdouble, Ptr{Float64}, Ptr{Float64}, Culong), x, y, res, n)
+    status != 0 && error("yepCore_Subtract_S64fV64f_V64f: error: ", status)
+    res
 end
 
 subtract(x::Array, y::Array) = subtract!(similar(x), x, y)
@@ -133,11 +133,11 @@ end
 
 # x .* constant_y
 function multiply!(res::Array{Float64}, x::Array{Float64}, y::Float64)
-	n = length(x)
-	assert(length(res) == n)
-	const status = ccall( (:yepCore_Multiply_V64fS64f_V64f, "libyeppp"), Cint, (Ptr{Float64}, Cdouble, Ptr{Float64}, Culong), x, y, res, n)
-	status != 0 && error("yepCore_Multiply_V64fS64f_V64f: error: ", status)
-	res
+    n = length(x)
+    assert(length(res) == n)
+    const status = ccall( (:yepCore_Multiply_V64fS64f_V64f, "libyeppp"), Cint, (Ptr{Float64}, Cdouble, Ptr{Float64}, Culong), x, y, res, n)
+    status != 0 && error("yepCore_Multiply_V64fS64f_V64f: error: ", status)
+    res
 end
 
 multiply(x, y) = multiply!(similar(x), x, y)
