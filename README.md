@@ -22,7 +22,7 @@ t  = @elapsed log(x)
 t/ty
 ````
 
-The following functions are available for `Vector{Float64}`. Inputs
+The following functions are available for `Array{Float64}`. Inputs
 are in `x`, and outputs are in `y`.
 
 ```julia
