@@ -23,47 +23,69 @@ function dot(x::Vector{Float64}, y::Vector{Float64})
     dotproduct[1]
 end
 
-function sum(v::Array{Float64})
-    n = length(v)
-    local s::Array{Float64} = Array(Float64, 1)
-    const status = ccall( (:yepCore_Sum_V64f_S64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Culong), v, s, n)
-    status != 0 && error("yepCore_Sum_V64f_S64f: error: ", status)
-    s[1]
-end
+macro yepppfunsAA_A(fname, libname, BT)
+    errorname = libname * ": error: "
+    quote 
+        global $(fname)
+        function $(fname)(res::Array{$(BT)}, x::Array{$(BT)}, y::Array{$(BT)})
+            assert(length(x) == length(y)==length(res))
+            n = length(x)
+            
+            const status = ccall( ($(libname), libyeppp), Cint, (Ptr{$(BT)}, Ptr{$(BT)}, Ptr{$(BT)}, Culong), x, y, res, n)
+            status != 0 && error($(errorname), status)
+            res
+        end
+    end 
+end 
 
-function sumabs(v::Array{Float64})
-    n = length(v)
-    s = Array(Float64, 1)
-    const status = ccall( (:yepCore_SumAbs_V64f_S64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Culong), v, s, n)
-    status != 0 && error("yepCore_SumAbs_V64f_S64f: error: ", status)
-    s[1]
-end
+macro yepppfunsA_A(fname, libname, BT)
+    errorname = libname * ": error: "
+    quote 
+        global $(fname)
+        function $(fname)(res::Array{$(BT)}, x::Array{$(BT)})
+            assert(length(x) == length(res))
+            n = length(x)
+            
+            const status = ccall( ($(libname), libyeppp), Cint, (Ptr{$(BT)}, Ptr{$(BT)}, Culong), x, res, n)
+            status != 0 && error($(errorname), status)
+            res
+        end
+    end 
+end 
 
-function sumabs2(v::Array{Float64})
-    n = length(v)
-    s = Array(Float64, 1)
-    const status = ccall( (:yepCore_SumSquares_V64f_S64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Culong), v, s, n)
-    status != 0 && error("yepCore_SumSquares_V64f_S64f: error: ", status)
-    s[1]
-end
+macro yepppfunsA_S(fname, libname, BT)
+    errorname = libname * ": error: "
+    quote 
+        global $(fname)
+        function $(fname)(x::Array{$(BT)})
+            n = length(x)
+            res = Array($(BT), 1)
+            const status = ccall( ($(libname), libyeppp), Cint, (Ptr{$(BT)}, Ptr{$(BT)}, Culong), x, res, n)
+            status != 0 && error($(errorname), status)
+            res[1]
+        end
+    end 
+end 
 
-function max!(res::Array{Float64}, x::Array{Float64}, y::Array{Float64})
-    assert(length(x) == length(y))
-    n = length(x)
-    const status = ccall( (:yepCore_Max_V64fV64f_V64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Culong), x, y, res, n)
-    status != 0 && error("yepCore_Max_V64fV64f_V64f: error: ", status)
-    res
-end
+
+@yepppfunsAA_A add! "yepCore_Add_V64fV64f_V64f" Float64
+@yepppfunsAA_A multiply! "yepCore_Multiply_V64fV64f_V64f" Float64
+@yepppfunsAA_A subtract! "yepCore_Subtract_V64fV64f_V64f" Float64
+@yepppfunsAA_A max! "yepCore_Max_V64fV64f_V64f" Float64
+@yepppfunsAA_A min! "yepCore_Min_V64fV64f_V64f" Float64
+
+# @yepppfunsA_A negate "yepCore_Negate_IV64f_IV64f Float64
+@yepppfunsA_A log! "yepMath_Log_V64f_V64f" Float64
+@yepppfunsA_A exp! "yepMath_Exp_V64f_V64f" Float64
+@yepppfunsA_A sin! "yepMath_Sin_V64f_V64f" Float64
+@yepppfunsA_A cos! "yepMath_Cos_V64f_V64f" Float64
+@yepppfunsA_A tan! "yepMath_Tan_V64f_V64f" Float64
+
+@yepppfunsA_S sum "yepCore_Sum_V64f_S64f" Float64
+@yepppfunsA_S sumabs "yepCore_SumAbs_V64f_S64f" Float64
+@yepppfunsA_S sumabs2 "yepCore_SumSquares_V64f_S64f" Float64
 
 max(x, y) = max!(similar(x), x, y)
-
-function min!(res::Array{Float64}, y::Array{Float64}, x::Array{Float64})
-    assert(length(x) == length(y))
-    n = length(x)
-    const status = ccall( (:yepCore_Min_V64fV64f_V64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Culong), x, y, res, n)
-    status != 0 && error("yepCore_Min_V64fV64f_V64f: error: ", status)
-    res
-end
 
 min(x, y) = min!(similar(x), x, y)
 
@@ -78,14 +100,6 @@ end
 
 evalpoly(coef, x) = evalpoly!(similar(x), coef, x)
 
-function add!(res::Array{Float64}, x::Array{Float64}, y::Array{Float64})
-    assert(length(x) == length(y))
-    n = length(x)
-    const status = ccall( (:yepCore_Add_V64fV64f_V64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Culong), x, y, res, n)
-    status != 0 && error("yepCore_Add_V64fV64f_V64f: error: ", status)
-    res
-end
-
 function add!(res::Array{Float64}, x::Array{Float64}, y::Float64)
     n = length(x)
     assert(length(res) == n)
@@ -95,14 +109,6 @@ function add!(res::Array{Float64}, x::Array{Float64}, y::Float64)
 end
 
 add(x, y) = add!(similar(x), x, y)
-
-function subtract!(res::Array{Float64}, x::Array{Float64}, y::Array{Float64})
-    assert(length(x) == length(y))
-    n = length(x)
-    const status = ccall( (:yepCore_Subtract_V64fV64f_V64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Culong), x, y, res, n)
-    status != 0 && error("yepCore_Subtract_V64fV64f_V64f: error: ", status)
-    res
-end
 
 #x - constant_y
 function subtract!(res::Array{Float64}, x::Array{Float64}, y::Float64)
@@ -126,13 +132,6 @@ subtract(x::Array, y::Array) = subtract!(similar(x), x, y)
 subtract(x::Array, y::Float64) = subtract!(similar(x), x, y)
 subtract(x::Float64, y::Array) = subtract!(similar(y), x, y)
 
-function multiply!(res::Array{Float64}, x::Array{Float64}, y::Array{Float64})
-    assert(length(x) == length(y))
-    n = length(x)
-    const status = ccall( (:yepCore_Multiply_V64fV64f_V64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Culong), x, y, res, n)
-    status != 0 && error("yepCore_Multiply_V64fV64f_V64f: error: ", status)
-    res
-end
 
 # x .* constant_y
 function multiply!(res::Array{Float64}, x::Array{Float64}, y::Float64)
@@ -152,53 +151,13 @@ function negate!(v::Array{Float64})
     v
 end
 
-function log!(y::Array{Float64}, x::Array{Float64})
-    assert(length(x) == length(y))
-    n = length(x)
-    const status = ccall( (:yepMath_Log_V64f_V64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Culong), x, y, n)
-    status != 0 && error("yepMath_Log_V64f_V64f: error: ", status)
-    y
-end
-
 log(x) = log!(similar(x), x)
-
-function exp!(y::Array{Float64}, x::Array{Float64})
-    assert(length(x) == length(y))
-    n = length(x)
-    const status = ccall( (:yepMath_Exp_V64f_V64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Culong), x, y, n)
-    status != 0 && error("yepMath_Exp_V64f_V64f: error: ", status)
-    y
-end
 
 exp(x) = exp!(similar(x), x)
 
-function sin!(y::Array{Float64}, x::Array{Float64})
-    assert(length(x) == length(y))
-    n = length(x)
-    const status = ccall( (:yepMath_Sin_V64f_V64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Culong), x, y, n)
-    status != 0 && error("yepMath_Sin_V64f_V64f: error: ", status)
-    y
-end
-
 sin(x) = sin!(similar(x), x)
 
-function cos!(y::Array{Float64}, x::Array{Float64})
-    assert(length(x) == length(y))
-    n = length(x)
-    const status = ccall( (:yepMath_Cos_V64f_V64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Culong), x, y, n)
-    status != 0 && error("yepMath_Cos_V64f_V64f: error: ", status)
-    y
-end
-
 cos(x) = cos!(similar(x), x)
-
-function tan!(y::Array{Float64}, x::Array{Float64})
-    assert(length(x) == length(y))
-    n = length(x)
-    const status = ccall( (:yepMath_Tan_V64f_V64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Culong), x, y, n)
-    status != 0 && error("yepMath_Tan_V64f_V64f: error: ", status)
-    y
-end
 
 tan(x) = tan!(similar(x), x)
 
