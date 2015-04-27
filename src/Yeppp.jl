@@ -18,8 +18,8 @@ macro yepppfunsAA_A(fname, libname, BT)
     quote 
         global $(fname)
         function $(fname)(res::Array{$(BT)}, x::Array{$(BT)}, y::Array{$(BT)})
-            assert(length(x) == length(y)==length(res))
             n = length(x)
+            assert(n == length(y) == length(res))
             
             const status = ccall( ($(libname), libyeppp), Cint, (Ptr{$(BT)}, Ptr{$(BT)}, Ptr{$(BT)}, Culong), x, y, res, n)
             status != 0 && error($(errorname), status)
@@ -33,8 +33,8 @@ macro yepppfunsA_A(fname, libname, BT)
     quote 
         global $(fname)
         function $(fname)(res::Array{$(BT)}, x::Array{$(BT)})
-            assert(length(x) == length(res))
             n = length(x)
+            assert(n == length(res))
             
             const status = ccall( ($(libname), libyeppp), Cint, (Ptr{$(BT)}, Ptr{$(BT)}, Culong), x, res, n)
             status != 0 && error($(errorname), status)
@@ -75,8 +75,8 @@ end
 @yepppfunsA_S sumabs2 "yepCore_SumSquares_V64f_S64f" Float64
 
 function dot(x::Vector{Float64}, y::Vector{Float64})
-    assert(length(x) == length(y))
     n = length(x)
+    assert(n == length(y))
     dotproduct = Array(Float64, 1)
     const status = ccall( (:yepCore_DotProduct_V64fV64f_S64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Culong), x, y, dotproduct, n)
     status != 0 && error("yepCore_DotProduct_V64fV64f_S64f: error: ", status)
@@ -88,8 +88,8 @@ max(x, y) = max!(similar(x), x, y)
 min(x, y) = min!(similar(x), x, y)
 
 function evalpoly!(res::Array{Float64}, coef::Array{Float64}, x::Array{Float64})
-    assert(length(x) == length(res))
     n = length(coef)
+    assert(n == length(res))
     arraysize = length(x)
     const status = ccall( (:yepMath_EvaluatePolynomial_V64fV64f_V64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Culong, Culong), coef, x, res, n, arraysize)
     status != 0 && error("yepMath_EvaluatePolynomial_V64fV64f_V64f: error: ", status)
