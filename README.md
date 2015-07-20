@@ -30,7 +30,7 @@ are in `x`, and outputs are in `y`.
 ```julia
 dot(x1, x2)
 sum(x)
-subabs(x)
+sumabs(x)
 sumabs2(x)
 negate!(x)
 max!(y, x1, x2)
