@@ -1,17 +1,15 @@
 using BinDeps
-
-#@BinDeps.setup
+using Compat
+@BinDeps.setup
 ver = "1.0.0"
-run(download_cmd("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2", "yeppp-$ver.tar.bz2"))
-run(unpack_cmd("yeppp-$ver.tar.bz2", ".", ".bz2", ".tar"))
-
+libyepppdep = library_dependency("libyeppp")
 @windows_only begin
     if Sys.WORD_SIZE == 64
         wsize = "amd64"
     else
         wsize = "x86"
     end
-    run(`cp yeppp-$ver/binaries/windows/$wsize/yeppp.dll yeppp-$ver/binaries/windows/$wsize/yeppp.lib yeppp-$ver/binaries/windows/$wsize/yeppp.pdb .`)
+    provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/windows/$wsize/", os = :windows)
 end
 @osx_only begin
     if Sys.WORD_SIZE == 64
@@ -19,7 +17,7 @@ end
     else
         wsize = "x86"
     end
-    run(`cp yeppp-$ver/binaries/macosx/$wsize/libyeppp.dylib yeppp-$ver/binaries/macosx/$wsize/libyeppp.dylib.dSYM .`)
+    provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/macosx/$wsize/", os = :Darwin)
 end
 @linux_only begin 
     if Sys.WORD_SIZE == 64
@@ -27,8 +25,6 @@ end
     else
         wsize = "i586"
     end
-    run(`cp yeppp-$ver/binaries/linux/$wsize/libyeppp.dbg yeppp-$ver/binaries/linux/$wsize/libyeppp.so .`)
+    provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/linux/$wsize/", os = :linux)
 end
-# provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-1.0.0.tar.bz2"))
-
-#@BinDeps.install 
+@compat @BinDeps.install Dict(:libyeppp => :libyeppp)
