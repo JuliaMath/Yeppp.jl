@@ -21,10 +21,12 @@ end
     provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/macosx/$wsize/", os = :Darwin)
 end
 @linux_only begin 
-    if Sys.WORD_SIZE == 64
+    if Sys.ARCH == :x86_64
         wsize = "x86_64"
-    else
+    elseif Sys.ARCH == :x86
         wsize = "i586"
+	else
+		error("$(Sys.ARCH) is not currently supported. ")
     end
 	push!(BinDeps.defaults, Binaries)
     provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/linux/$wsize/", os = :Linux)
