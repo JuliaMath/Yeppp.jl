@@ -26,6 +26,7 @@ end
     else
         wsize = "i586"
     end
+	push!(BinDeps.defaults, Binaries)
     provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/linux/$wsize/", os = :Linux)
 end
 @compat @BinDeps.install Dict(:libyeppp => :libyeppp)
