@@ -1,6 +1,8 @@
 Yeppp bindings for Julia
 ========================
 
+[![Build Status](https://travis-ci.org/JuliaLang/Yeppp.jl.png)](https://travis-ci.org/JuliaLang/Yeppp.jl)
+
 [Yeppp!](http://www.yeppp.info) is a high-performance SIMD-optimized
 mathematical library. This Julia package makes it possible to
 call Yeppp from Julia.
