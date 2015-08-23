@@ -1,7 +1,13 @@
 module Yeppp
 
-@unix_only    const libyeppp = "libyeppp"
-@windows_only const libyeppp = "yeppp"
+# @unix_only    const libyeppp = "libyeppp"
+# @windows_only const libyeppp = "yeppp"
+
+if isfile(joinpath(dirname(@__FILE__),"..","deps","deps.jl"))
+    include("../deps/deps.jl")
+else
+    error("Yeppp not properly installed. Please run Pkg.build(\"Yeppp\")")
+end
 
 function __init__()
     const status = ccall( (:yepLibrary_Init, libyeppp), Cint, ())
