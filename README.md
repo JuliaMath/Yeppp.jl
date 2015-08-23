@@ -5,10 +5,18 @@ Yeppp bindings for Julia
 mathematical library. This Julia package makes it possible to
 call Yeppp from Julia.
 
-To use this package, [download
-Yeppp](http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-1.0.0.zip)
-and extract from the `binaries` folder the file(s) specific to your OS.
-This is `yeppp.dll` on Windows and `libyeppp` file(s) on other OS.
+Install this package by 
+
+```julia
+Pkg.add("Yeppp")
+```
+
+For common platforms, this will download depencency automatically. For some
+other platforms such as PowerPC 64 architecture, you may still be able to 
+use this package by [downloading
+Yeppp!](http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-1.0.0.zip)
+and extracting from the `binaries` folder the file(s) specific to your OS.
+Check the platforms supported by Yeppp! [here](https://bitbucket.org/MDukhan/yeppp).
 Make sure the extracted files are available on the system library
 search path or in the current directory.  For example, in Julia's `bin` folder.
 
@@ -48,5 +56,5 @@ cos!(y, x)
 tan!(y, x)
 ````
 
-See the [Yeppp documentation](http://docs.yeppp.info/c/modules.html)
-for the full set of functions available in Yeppp.
+See the [Yeppp! documentation](http://docs.yeppp.info/c/modules.html)
+for the full set of functions available in Yeppp!.

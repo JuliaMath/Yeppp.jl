@@ -23,13 +23,15 @@ end
 @linux_only begin 
     if Sys.ARCH == :x86_64
         wsize = "x86_64"
+		push!(BinDeps.defaults, Binaries)
+		provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/linux/$wsize/", os = :Linux)
     elseif Sys.ARCH == :x86
         wsize = "i586"
+		push!(BinDeps.defaults, Binaries)
+		provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/linux/$wsize/", os = :Linux)
 	else
-		error("$(Sys.ARCH) is not currently supported. ")
+		warn("The dependency for $(Sys.ARCH) is not installed automatically.")
     end
-	push!(BinDeps.defaults, Binaries)
-    provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/linux/$wsize/", os = :Linux)
 end
 @compat @BinDeps.install Dict(:libyeppp => :libyeppp)
 
