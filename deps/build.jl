@@ -1,35 +1,15 @@
 using BinDeps
 using Compat
-@BinDeps.setup
 ver = "1.0.0"
-libyepppdep = library_dependency("libyeppp", aliases=["yeppp"])
 
-@windows_only begin
-    if Sys.WORD_SIZE == 64
-        wsize = "amd64"
-    else
-        wsize = "x86"
-    end
-    provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/windows/$wsize/", os = :Windows)
+if Sys.ARCH != :x86_64
+    warn("Your package is not built successfully. You can still use this package if adding the library file corresponding to your platform to the search path.")
+else   
+    @BinDeps.setup
+    libyepppdep = library_dependency("libyeppp", aliases=["yeppp"])
+    provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/windows/amd64/", os = :Windows)
+    provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/macosx/x86_64/", os = :Darwin)
+    @linux_only push!(BinDeps.defaults, Binaries)
+    provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/linux/x86_64/", os = :Linux)
+    @compat @BinDeps.install Dict(:libyeppp => :libyeppp)
 end
-@osx_only begin
-    if Sys.WORD_SIZE == 64
-        wsize = "x86_64"
-    else
-        wsize = "x86"
-    end
-    provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/macosx/$wsize/", os = :Darwin)
-end
-@linux_only begin 
-    if Sys.ARCH == :x86_64
-        wsize = "x86_64"
-    elseif Sys.ARCH == :x86
-        wsize = "i586"
-    else
-        warn("$(Sys.ARCH) is not currently supported.")
-    end
-    push!(BinDeps.defaults, Binaries)
-    provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/linux/$wsize/", os = :Linux)
-end
-@compat @BinDeps.install Dict(:libyeppp => :libyeppp)
-
