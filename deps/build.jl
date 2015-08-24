@@ -3,7 +3,7 @@ using Compat
 ver = "1.0.0"
 
 if Sys.ARCH != :x86_64
-    warn("Your package is not built successfully. You can still use this package if adding the library file corresponding to your platform to the search path.")
+    warn("Your package is not built successfully. You can still use this package if downding Yeppp! and adding the binary library file corresponding to your platform to the search path.")
 else   
     @BinDeps.setup
     libyepppdep = library_dependency("libyeppp", aliases=["yeppp"])
