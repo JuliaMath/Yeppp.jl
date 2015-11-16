@@ -109,13 +109,13 @@ subtract(x::Array, y::Array) = subtract!(similar(x), x, y)
 multiply(x, y) = multiply!(similar(x), x, y)
 
 log(x) = log!(similar(x), x)
-
+log!(x) = log!(x, x)
 exp(x) = exp!(similar(x), x)
-
+exp!(x) = exp!(x, x)
 sin(x) = sin!(similar(x), x)
-
+sin!(x) = sin!(x, x)
 cos(x) = cos!(similar(x), x)
-
+cos!(x) = cos!(x, x)
 tan(x) = tan!(similar(x), x)
-
+tan!(x) = tan!(x, x)
 end # module
