@@ -15,8 +15,8 @@ Install this package by
 Pkg.add("Yeppp")
 ```
 
-For common 64-bit platforms, this will download depencency automatically. For some
-other platforms such as PowerPC 64 architecture, you may still be able to 
+For common 64-bit platforms, this will download dependencies automatically. For some
+other platforms such as the PowerPC 64 architecture, you may still be able to 
 use this package by [downloading
 Yeppp!](http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-1.0.0.zip)
 and extracting from the `binaries` folder the file(s) specific to your OS.
