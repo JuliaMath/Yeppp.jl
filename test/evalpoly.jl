@@ -146,7 +146,7 @@ function horner_gen!(coef::Vector{Float64}, x::Vector{Float64}, y::Vector{Float6
 end
 
 function runtest(n::Int = 10^7)
-    x = linspace(0,1,n)
+    x = collect(linspace(0,1,n))
     y1 = zeros(n)
     y2 = zeros(n)
     y3 = zeros(n)
@@ -161,6 +161,6 @@ function runtest(n::Int = 10^7)
     @printf "General Horner method: %f\n" thorner2
 
 end
-runtest()
+runtest(length(coeff))
 
 end
