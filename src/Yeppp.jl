@@ -80,6 +80,11 @@ end
 @yepppfunsA_S sumabs "yepCore_SumAbs_V64f_S64f" Float64
 @yepppfunsA_S sumabs2 "yepCore_SumSquares_V64f_S64f" Float64
 
+"""
+    dot(x::Vector{Float64}, y::Vector{Float64})
+
+Compute the dot product of x and y.
+"""
 function dot(x::Vector{Float64}, y::Vector{Float64})
     n = length(x)
     assert(n == length(y))
@@ -89,8 +94,18 @@ function dot(x::Vector{Float64}, y::Vector{Float64})
     dotproduct[1]
 end
 
+"""
+    max(x, y)
+
+Compares the vectors `x` and `y` and return the element wise maxima.
+"""
 max(x, y) = max!(similar(x), x, y)
 
+"""
+    max(x, y)
+
+Compares the vectors `x` and `y` and return the element wise minima.
+"""
 min(x, y) = min!(similar(x), x, y)
 
 function evalpoly!(res::Array{Float64}, coef::Array{Float64}, x::Array{Float64})
@@ -102,20 +117,94 @@ function evalpoly!(res::Array{Float64}, coef::Array{Float64}, x::Array{Float64})
     res
 end
 
+"""
+    evalpoly(coeff, x)
+
+Evaluates polynomial with double precision (64-bit) floating-point coefficients `coeff` on an array of double precision (64-bit) floating-point elements `x`.
+"""
 evalpoly(coef, x) = evalpoly!(similar(x), coef, x)
 
+"""
+    subtract(x::Array, y::Array)
+
+Perform element wise subtraction of the two array `x` and `y`.
+"""
 subtract(x::Array, y::Array) = subtract!(similar(x), x, y)
 
+"""
+    multiply(x, y)
+
+Perform element wise multiplication of the two array `x` and `y`.
+"""
 multiply(x, y) = multiply!(similar(x), x, y)
 
+"""
+    log(x)
+
+Returns the element wise natural logarithm of `x`.
+"""
 log(x) = log!(similar(x), x)
+
+"""
+    log!(x)
+
+Computes the element wise natural logarithm of `x` inplace.
+"""
 log!(x) = log!(x, x)
+
+"""
+    exp(x)
+
+Returns the element wise exponential of `x`.
+"""
 exp(x) = exp!(similar(x), x)
+
+"""
+    exp(x)
+
+Computes the element wise exponential of `x` inplace.
+"""
 exp!(x) = exp!(x, x)
+
+"""
+    sin(x)
+
+Returns element wise `sin` of `x`. 
+"""
 sin(x) = sin!(similar(x), x)
+
+"""
+    sin(x)
+
+Computes element wise `sin` of `x` inplace.
+"""
 sin!(x) = sin!(x, x)
+
+"""
+    cos(x)
+
+Returns element wise `cos` of `x`. 
+"""
 cos(x) = cos!(similar(x), x)
+
+"""
+    cos(x)
+
+Returns element wise `cos` of `x`. 
+"""
 cos!(x) = cos!(x, x)
+
+"""
+    tan(x)
+
+Returns element wise `tan` of `x`. 
+"""
 tan(x) = tan!(similar(x), x)
+
+"""
+    tan(x)
+
+Returns element wise `tan` of `x`. 
+"""
 tan!(x) = tan!(x, x)
 end # module
