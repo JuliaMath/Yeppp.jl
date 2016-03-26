@@ -125,6 +125,13 @@ Evaluates polynomial with double precision (64-bit) floating-point coefficients 
 evalpoly(coef, x) = evalpoly!(similar(x), coef, x)
 
 """
+    add(x::Array, y::Array)
+
+Perform element wise addition of the two array `x` and `y`.
+"""
+add(x::Array, y::Array) = add!(similar(x), x, y)
+
+"""
     subtract(x::Array, y::Array)
 
 Perform element wise subtraction of the two array `x` and `y`.
