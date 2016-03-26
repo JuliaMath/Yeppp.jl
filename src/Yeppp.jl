@@ -63,13 +63,13 @@ macro yepppfunsA_S(fname, libname, BT)
     end 
 end 
 
+## == Float64 == ##
 @yepppfunsAA_A add! "yepCore_Add_V64fV64f_V64f" Float64
 @yepppfunsAA_A multiply! "yepCore_Multiply_V64fV64f_V64f" Float64
 @yepppfunsAA_A subtract! "yepCore_Subtract_V64fV64f_V64f" Float64
 @yepppfunsAA_A max! "yepCore_Max_V64fV64f_V64f" Float64
 @yepppfunsAA_A min! "yepCore_Min_V64fV64f_V64f" Float64
 
-# @yepppfunsA_A negate "yepCore_Negate_IV64f_IV64f Float64
 @yepppfunsA_A log! "yepMath_Log_V64f_V64f" Float64
 @yepppfunsA_A exp! "yepMath_Exp_V64f_V64f" Float64
 @yepppfunsA_A sin! "yepMath_Sin_V64f_V64f" Float64
@@ -79,6 +79,16 @@ end
 @yepppfunsA_S sum "yepCore_Sum_V64f_S64f" Float64
 @yepppfunsA_S sumabs "yepCore_SumAbs_V64f_S64f" Float64
 @yepppfunsA_S sumabs2 "yepCore_SumSquares_V64f_S64f" Float64
+
+## == Float32 == ##
+@yepppfunsAA_A add! "yepCore_Add_V32fV32f_V32f" Float32
+@yepppfunsAA_A multiply! "yepCore_Multiply_V32fV32f_V32f" Float32
+@yepppfunsAA_A subtract! "yepCore_Subtract_V32fV32f_V32f" Float32
+@yepppfunsAA_A max! "yepCore_Max_V32fV32f_V32f" Float32
+@yepppfunsAA_A min! "yepCore_Min_V32fV32f_V32f" Float32
+
+@yepppfunsA_S sum "yepCore_Sum_V32f_S32f" Float32
+@yepppfunsA_S sumabs2 "yepCore_SumSquares_V32f_S32f" Float32
 
 """
     dot(x::Vector{Float64}, y::Vector{Float64})
