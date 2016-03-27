@@ -95,6 +95,20 @@ function dot(x::Vector{Float64}, y::Vector{Float64})
 end
 
 """
+    dot(x::Vector{Float32}, y::Vector{Float32})
+
+Compute the dot product of x and y.
+"""
+function dot(x::Vector{Float32}, y::Vector{Float32})
+    n = length(x)
+    assert(n == length(y))
+    dotproduct = Array(Float32, 1)
+    const status = ccall( (:yepCore_DotProduct_V32fV32f_S32f, libyeppp), Cint, (Ptr{Float32}, Ptr{Float32}, Ptr{Float32}, Culong), x, y, dotproduct, n)
+    status != 0 && error("yepCore_DotProduct_V32fV32f_S32f: error: ", status)
+    dotproduct[1]
+end
+
+"""
     max(x, y)
 
 Compares the vectors `x` and `y` and return the element wise maxima.
