@@ -28,4 +28,8 @@ res = rand(1000)
 @test_approx_eq Yeppp.sumabs(x) sumabs(x)
 @test_approx_eq Yeppp.sumabs2(x) sumabs2(x)
 
-@test_approx_eq Yeppp.dot(x, y) dot(x, y)
+for T in (Float32, Float64)
+    xx::Vector{T} = rand(1000)
+    yy::Vector{T} = rand(1000)
+    @test_approx_eq Yeppp.dot(xx, yy) dot(xx, yy)
+end
