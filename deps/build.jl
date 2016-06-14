@@ -9,7 +9,8 @@ else
 
     provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/windows/amd64/", os = :Windows)
     provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/macosx/x86_64/", os = :Darwin)
-    @linux_only push!(BinDeps.defaults, Binaries)
+    @static is_linux() ? push!(BinDeps.defaults, Binaries) : nothing
     provides(Binaries, URI("http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-$ver.tar.bz2"), libyepppdep, unpacked_dir = "yeppp-$ver/binaries/linux/x86_64/", os = :Linux)
 end
 @compat @BinDeps.install Dict(:libyeppp => :libyeppp)
+@static is_linux() ? pop!(BinDeps.defaults) : nothing
