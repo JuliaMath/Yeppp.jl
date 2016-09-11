@@ -134,8 +134,8 @@ min(x, y) = min!(similar(x), x, y)
 
 function evalpoly!(res::Array{Float64}, coef::Array{Float64}, x::Array{Float64})
     n = length(coef)
-    assert(n == length(res))
     arraysize = length(x)
+    assert(arraysize == length(res))
     const status = ccall( (:yepMath_EvaluatePolynomial_V64fV64f_V64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Culong, Culong), coef, x, res, n, arraysize)
     status != 0 && error("yepMath_EvaluatePolynomial_V64fV64f_V64f: error: ", status)
     res

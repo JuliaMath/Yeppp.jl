@@ -161,6 +161,6 @@ function runtest(n::Int = 10^7)
     @printf "General Horner method: %f\n" thorner2
 
 end
-runtest(length(coeff))
+runtest()
 
 end
