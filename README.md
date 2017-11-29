@@ -1,22 +1,29 @@
 Yeppp bindings for Julia
 ========================
 
-Linux: [![Build Status](https://travis-ci.org/JuliaLang/Yeppp.jl.svg?branch=master)](https://travis-ci.org/JuliaLang/Yeppp.jl)
+[![Yeppp](http://pkg.julialang.org/badges/Yeppp_0.5.svg)](http://pkg.julialang.org/?pkg=Yeppp)
+[![Yeppp](http://pkg.julialang.org/badges/Yeppp_0.6.svg)](http://pkg.julialang.org/?pkg=Yeppp)
 
-Windows: [![Build Status](https://ci.appveyor.com/api/projects/status/github/JuliaLang/Yeppp.jl?branch=master&svg=true)](https://ci.appveyor.com/project/panlanfeng/yeppp-jl/branch/master)
+Linux: [![Build Status](https://travis-ci.org/JuliaMath/Yeppp.jl.svg?branch=master)](https://travis-ci.org/JuliaMath/Yeppp.jl)
+
+Windows: [![Build status](https://ci.appveyor.com/api/projects/status/yxtppqel13q8d8td?svg=true)](https://ci.appveyor.com/project/panlanfeng/yeppp-jl-2y32h)
+
+
+[![Coverage Status](https://coveralls.io/repos/JuliaMath/Yeppp.jl/badge.svg?branch=master)](https://coveralls.io/r/JuliaMath/Yeppp.jl?branch=master)
+[![codecov.io](http://codecov.io/github/JuliaMath/Yeppp.jl/coverage.svg?branch=master)](http://codecov.io/github/JuliaMath/Yeppp.jl?branch=master)
 
 [Yeppp!](http://www.yeppp.info) is a high-performance SIMD-optimized
 mathematical library. This Julia package makes it possible to
 call Yeppp from Julia.
 
-Install this package by 
+Install this package by
 
 ```julia
 Pkg.add("Yeppp")
 ```
 
 For common 64-bit platforms, this will download dependencies automatically. For some
-other platforms such as the PowerPC 64 architecture, you may still be able to 
+other platforms such as the PowerPC 64 architecture, you may still be able to
 use this package by [downloading
 Yeppp!](http://bitbucket.org/MDukhan/yeppp/downloads/yeppp-1.0.0.zip)
 and extracting from the `binaries` folder the file(s) specific to your OS.
