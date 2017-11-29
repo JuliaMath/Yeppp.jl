@@ -55,7 +55,7 @@ macro yepppfunsA_S(fname, libname, BT)
         global $(fname)
         function $(fname)(x::Array{$(BT)})
             n = length(x)
-            res = Array($(BT), 1)
+            res = Array{$(BT)}(1)
             const status = ccall( ($(libname), libyeppp), Cint, (Ptr{$(BT)}, Ptr{$(BT)}, Culong), x, res, n)
             status != 0 && error($(errorname), status)
             res[1]
@@ -98,7 +98,7 @@ Compute the dot product of x and y.
 function dot(x::Vector{Float64}, y::Vector{Float64})
     n = length(x)
     assert(n == length(y))
-    dotproduct = Array(Float64, 1)
+    dotproduct = Array{Float64}(1)
     const status = ccall( (:yepCore_DotProduct_V64fV64f_S64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Culong), x, y, dotproduct, n)
     status != 0 && error("yepCore_DotProduct_V64fV64f_S64f: error: ", status)
     dotproduct[1]
@@ -112,7 +112,7 @@ Compute the dot product of x and y.
 function dot(x::Vector{Float32}, y::Vector{Float32})
     n = length(x)
     assert(n == length(y))
-    dotproduct = Array(Float32, 1)
+    dotproduct = Array{Float32}(1)
     const status = ccall( (:yepCore_DotProduct_V32fV32f_S32f, libyeppp), Cint, (Ptr{Float32}, Ptr{Float32}, Ptr{Float32}, Culong), x, y, dotproduct, n)
     status != 0 && error("yepCore_DotProduct_V32fV32f_S32f: error: ", status)
     dotproduct[1]
