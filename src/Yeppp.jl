@@ -3,6 +3,8 @@ module Yeppp
 # @unix_only    const libyeppp = "libyeppp"
 # @windows_only const libyeppp = "yeppp"
 
+using Libdl # BinDeps injects a dependency on Libdl
+
 if isfile(joinpath(dirname(@__FILE__),"..","deps","deps.jl"))
     include("../deps/deps.jl")
 else
