@@ -1,13 +1,9 @@
 Yeppp bindings for Julia
 ========================
 
-[![Yeppp](http://pkg.julialang.org/badges/Yeppp_0.5.svg)](http://pkg.julialang.org/?pkg=Yeppp)
-[![Yeppp](http://pkg.julialang.org/badges/Yeppp_0.6.svg)](http://pkg.julialang.org/?pkg=Yeppp)
-
 Linux: [![Build Status](https://travis-ci.org/JuliaMath/Yeppp.jl.svg?branch=master)](https://travis-ci.org/JuliaMath/Yeppp.jl)
 
 Windows: [![Build status](https://ci.appveyor.com/api/projects/status/yxtppqel13q8d8td?svg=true)](https://ci.appveyor.com/project/panlanfeng/yeppp-jl-2y32h)
-
 
 [![Coverage Status](https://coveralls.io/repos/JuliaMath/Yeppp.jl/badge.svg?branch=master)](https://coveralls.io/r/JuliaMath/Yeppp.jl?branch=master)
 [![codecov.io](http://codecov.io/github/JuliaMath/Yeppp.jl/coverage.svg?branch=master)](http://codecov.io/github/JuliaMath/Yeppp.jl?branch=master)
@@ -31,8 +27,8 @@ Check the platforms supported by Yeppp! [here](https://bitbucket.org/MDukhan/yep
 Make sure the extracted files are available on the system library
 search path or in the current directory.  For example, in Julia's `bin` folder.
 
-See example usage below. Yeppp's vectorized log is 7x faster than the
-one in Base that uses [openlibm](http://www.openlibm.org/).
+See example usage below. Yeppp's vectorized log is 3x faster than the
+one in Base, which is written in Julia.
 
 ```julia
 using Yeppp
@@ -41,7 +37,7 @@ x = rand(10^7)
 ty = @elapsed Yeppp.log!(similar(x), x)
 t  = @elapsed log(x)
 t/ty
-````
+```
 
 The following functions are available for `Array{Float64}`. Inputs
 are in `x`, and outputs are in `y`.
@@ -65,7 +61,7 @@ evalpoly!(y, x_coeff, x)
 sin!(y, x)
 cos!(y, x)
 tan!(y, x)
-````
+```
 
 See the [Yeppp! documentation](http://docs.yeppp.info/c/modules.html)
 for the full set of functions available in Yeppp!.
