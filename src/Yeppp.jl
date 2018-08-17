@@ -10,58 +10,58 @@ else
 end
 
 function __init__()
-    const status = ccall( (:yepLibrary_Init, libyeppp), Cint, ())
+    status = ccall( (:yepLibrary_Init, libyeppp), Cint, ())
     status != 0 && error("yepLibrary_Init: error: ", status)
 end
 
 function release()
-    const status = ccall( (:yepLibrary_Release, libyeppp), Cint, ())
+    status = ccall( (:yepLibrary_Release, libyeppp), Cint, ())
     status != 0 && error("yepLibrary_Release: error: ", status)
 end
 
 macro yepppfunsAA_A(fname, libname, BT)
     errorname = libname * ": error: "
-    quote 
+    quote
         global $(fname)
         function $(fname)(res::Array{$(BT)}, x::Array{$(BT)}, y::Array{$(BT)})
             n = length(x)
-            assert(n == length(y) == length(res))
-            
-            const status = ccall( ($(libname), libyeppp), Cint, (Ptr{$(BT)}, Ptr{$(BT)}, Ptr{$(BT)}, Culong), x, y, res, n)
+            @assert(n == length(y) == length(res))
+
+            status = ccall( ($(libname), libyeppp), Cint, (Ptr{$(BT)}, Ptr{$(BT)}, Ptr{$(BT)}, Culong), x, y, res, n)
             status != 0 && error($(errorname), status)
             res
         end
-    end 
-end 
+    end
+end
 
 macro yepppfunsA_A(fname, libname, BT)
     errorname = libname * ": error: "
-    quote 
+    quote
         global $(fname)
         function $(fname)(res::Array{$(BT)}, x::Array{$(BT)})
             n = length(x)
-            assert(n == length(res))
-            
-            const status = ccall( ($(libname), libyeppp), Cint, (Ptr{$(BT)}, Ptr{$(BT)}, Culong), x, res, n)
+            @assert(n == length(res))
+
+            status = ccall( ($(libname), libyeppp), Cint, (Ptr{$(BT)}, Ptr{$(BT)}, Culong), x, res, n)
             status != 0 && error($(errorname), status)
             res
         end
-    end 
-end 
+    end
+end
 
 macro yepppfunsA_S(fname, libname, BT)
     errorname = libname * ": error: "
-    quote 
+    quote
         global $(fname)
         function $(fname)(x::Array{$(BT)})
             n = length(x)
-            res = Array{$(BT)}(1)
-            const status = ccall( ($(libname), libyeppp), Cint, (Ptr{$(BT)}, Ptr{$(BT)}, Culong), x, res, n)
+            res = Ref{$BT}()
+            status = ccall( ($(libname), libyeppp), Cint, (Ptr{$(BT)}, Ptr{$(BT)}, Culong), x, res, n)
             status != 0 && error($(errorname), status)
-            res[1]
+            res[]
         end
-    end 
-end 
+    end
+end
 
 ## == Float64 == ##
 @yepppfunsAA_A add! "yepCore_Add_V64fV64f_V64f" Float64
@@ -97,11 +97,11 @@ Compute the dot product of x and y.
 """
 function dot(x::Vector{Float64}, y::Vector{Float64})
     n = length(x)
-    assert(n == length(y))
-    dotproduct = Array{Float64}(1)
-    const status = ccall( (:yepCore_DotProduct_V64fV64f_S64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Culong), x, y, dotproduct, n)
+    @assert(n == length(y))
+    dotproduct = Ref{Float64}()
+    status = ccall( (:yepCore_DotProduct_V64fV64f_S64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Culong), x, y, dotproduct, n)
     status != 0 && error("yepCore_DotProduct_V64fV64f_S64f: error: ", status)
-    dotproduct[1]
+    dotproduct[]
 end
 
 """
@@ -111,11 +111,11 @@ Compute the dot product of x and y.
 """
 function dot(x::Vector{Float32}, y::Vector{Float32})
     n = length(x)
-    assert(n == length(y))
-    dotproduct = Array{Float32}(1)
-    const status = ccall( (:yepCore_DotProduct_V32fV32f_S32f, libyeppp), Cint, (Ptr{Float32}, Ptr{Float32}, Ptr{Float32}, Culong), x, y, dotproduct, n)
+    @assert(n == length(y))
+    dotproduct = Ref{Float32}()
+    status = ccall( (:yepCore_DotProduct_V32fV32f_S32f, libyeppp), Cint, (Ptr{Float32}, Ptr{Float32}, Ptr{Float32}, Culong), x, y, dotproduct, n)
     status != 0 && error("yepCore_DotProduct_V32fV32f_S32f: error: ", status)
-    dotproduct[1]
+    dotproduct[]
 end
 
 """
@@ -135,8 +135,8 @@ min(x, y) = min!(similar(x), x, y)
 function evalpoly!(res::Array{Float64}, coef::Array{Float64}, x::Array{Float64})
     n = length(coef)
     arraysize = length(x)
-    assert(arraysize == length(res))
-    const status = ccall( (:yepMath_EvaluatePolynomial_V64fV64f_V64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Culong, Culong), coef, x, res, n, arraysize)
+    @assert(arraysize == length(res))
+    status = ccall( (:yepMath_EvaluatePolynomial_V64fV64f_V64f, libyeppp), Cint, (Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Culong, Culong), coef, x, res, n, arraysize)
     status != 0 && error("yepMath_EvaluatePolynomial_V64fV64f_V64f: error: ", status)
     res
 end
@@ -200,7 +200,7 @@ exp!(x) = exp!(x, x)
 """
     sin(x)
 
-Returns element wise `sin` of `x`. 
+Returns element wise `sin` of `x`.
 """
 sin(x) = sin!(similar(x), x)
 
@@ -214,28 +214,28 @@ sin!(x) = sin!(x, x)
 """
     cos(x)
 
-Returns element wise `cos` of `x`. 
+Returns element wise `cos` of `x`.
 """
 cos(x) = cos!(similar(x), x)
 
 """
     cos(x)
 
-Returns element wise `cos` of `x`. 
+Returns element wise `cos` of `x`.
 """
 cos!(x) = cos!(x, x)
 
 """
     tan(x)
 
-Returns element wise `tan` of `x`. 
+Returns element wise `tan` of `x`.
 """
 tan(x) = tan!(similar(x), x)
 
 """
     tan(x)
 
-Returns element wise `tan` of `x`. 
+Returns element wise `tan` of `x`.
 """
 tan!(x) = tan!(x, x)
 end # module
