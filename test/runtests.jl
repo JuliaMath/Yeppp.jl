@@ -1,5 +1,6 @@
 using Yeppp
-using Base.Test
+using Test
+import LinearAlgebra
 
 for T in (Float32, Float64)
     x::Vector{T} = rand(1000)
@@ -19,7 +20,7 @@ for T in (Float32, Float64)
 
     @test Yeppp.sum(x) ≈ sum(x)
     @test Yeppp.sumabs2(x) ≈ sum(abs2, x)
-    @test Yeppp.dot(x, y) ≈ dot(x, y)
+    @test Yeppp.dot(x, y) ≈ LinearAlgebra.dot(x, y)
 
 end
 

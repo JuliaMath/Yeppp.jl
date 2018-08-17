@@ -6,6 +6,7 @@ deps/usr
 deps/src
 deps/deps.jl
 deps/yeppp*
+deps/build.log
 *.bz2
 *.dylib
 *.so
